@@ -1,0 +1,9 @@
+{
+  "name": "DeSlop",
+  "short_name": "DeSlop",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F3EEE4",
+  "theme_color": "#F3EEE4",
+  "description": "A short reading list with a stop condition."
+}

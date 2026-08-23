@@ -1,0 +1,29 @@
+{
+  "name": "deslop",
+  "version": "0.1.0",
+  "private": false,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pauljump/deslop.git"
+  },
+  "homepage": "https://deslop.polyfeeds.dev",
+  "scripts": {
+    "dev": "next dev --port 8180",
+    "source-tarball": "rm -f public/deslop.tgz && tar -czf public/deslop.tgz --exclude=node_modules --exclude=.next --exclude=public/deslop.tgz --exclude=.DS_Store README.md LICENSE package.json tsconfig.json next.config.ts next-env.d.ts ARCHITECTURE.md AGENTS.md CLAUDE.md src public",
+    "build": "pnpm source-tarball && next build",
+    "ingest": "node --experimental-strip-types --experimental-default-type=module src/cli.ts ingest",
+    "dose": "node --experimental-strip-types --experimental-default-type=module src/cli.ts dose"
+  },
+  "dependencies": {
+    "next": "^15.3.1",
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.1.0",
+    "@types/react-dom": "^19.1.0",
+    "typescript": "^5.8.0"
+  }
+}
