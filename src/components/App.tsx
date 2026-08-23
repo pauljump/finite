@@ -379,21 +379,27 @@ export function App() {
         </div>
       )}
       <div className="actions">
-        <a className="btn" href={current.url} target="_blank" rel="noopener noreferrer">
+        <a
+          className="btn"
+          href={current.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-analytics-event="open_source"
+        >
           Open the source
         </a>
-        <button className="btn secondary" onClick={() => commit(current, "useful")}>
+        <button className="btn secondary" data-analytics-event="keep" onClick={() => commit(current, "useful")}>
           Keep
         </button>
-        <button className="btn secondary" onClick={() => commit(current, "slop")}>
+        <button className="btn secondary" data-analytics-event="drop" onClick={() => commit(current, "slop")}>
           Drop
         </button>
-        <button className="btn ghost" onClick={() => commit(current, "skip")}>
+        <button className="btn ghost" data-analytics-event="skip" onClick={() => commit(current, "skip")}>
           Skip (still counts)
         </button>
       </div>
       <div className="nav">
-        <button type="button" onClick={() => setScreen("rx")}>
+        <button type="button" data-analytics-event="intent" onClick={() => setScreen("rx")}>
           Intent
         </button>
       </div>
@@ -406,7 +412,7 @@ function DemoNote({ hosted }: { hosted: boolean }) {
   return (
     <p className="hero-note">
       {hosted ? "This is a demo. " : ""}
-      <a href="https://github.com/pauljump/finite" rel="noreferrer">
+      <a href="https://github.com/pauljump/finite" rel="noreferrer" data-analytics-event="github_click">
         github.com/pauljump/finite
       </a>
       {hosted ? " to run yours." : ""}
