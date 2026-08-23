@@ -1,17 +1,19 @@
-# DeSlop
+# Finite
 
 A short reading list with a stop condition.
 
-You write what you are working toward. The app fetches public RSS and YouTube Atom feeds. A small, inspectable scorer keeps only items that can quote a reason from the title or snippet. You get a short list. Then it stops until tomorrow.
+The public site is a **demo** of that list. It is not a hosted product and not an account. If you want one of your own, clone this repo and run it locally.
 
-No account. No API key. Your intent never leaves the device.
+You write what you are working toward. Public RSS and YouTube Atom come in. A small, inspectable scorer keeps only items that can quote a reason. You get a short list. Then it stops until tomorrow.
 
-Live demo: https://deslop.polyfeeds.dev
+No account. No API key. Intent stays in the browser.
 
-To have an AI set this up on your machine:
+Demo: https://finite.polyfeeds.dev
+
+To have an AI set it up on your machine:
 
 ```
-Read https://vibecheck.polyfeeds.dev/finite.txt and set up a local finite reading list on this machine. Inspect first, ask before installs, and verify localhost.
+Read https://vibecheck.polyfeeds.dev/finite.txt and clone https://github.com/pauljump/finite onto this machine. Inspect first, ask before installs, and verify localhost.
 ```
 
 ## Run locally
@@ -19,8 +21,8 @@ Read https://vibecheck.polyfeeds.dev/finite.txt and set up a local finite readin
 Needs Node 22+ and [pnpm](https://pnpm.io).
 
 ```bash
-git clone https://github.com/pauljump/deslop.git
-cd deslop
+git clone https://github.com/pauljump/finite.git
+cd finite
 pnpm install
 pnpm dev
 ```
@@ -29,10 +31,10 @@ Open http://localhost:8180
 
 ```bash
 pnpm ingest   # fetch default public feeds
-pnpm dose     # print today's list against the default intent
+pnpm dose     # print today's list
 ```
 
-Feed cache lives in `~/.local/state/deslop`. Override with `DESLOP_DATA_DIR`.
+Feed cache lives in `~/.local/state/finite`. Override with `FINITE_DATA_DIR`.
 
 ## How scoring works
 
@@ -42,12 +44,6 @@ The scorer is in `src/lib/score.ts`. It is not an LLM.
 - `evidence` must be a verbatim span from the title or snippet; no quote, no pass
 - `noise` flags clickbait, rage, engagement bait, and your hard-nos
 - The list is hard-capped. Skip still counts as a slot
-
-Add extra RSS or YouTube Atom URLs in the intent screen. YouTube channel feeds look like:
-
-```
-https://www.youtube.com/feeds/videos.xml?channel_id=CHANNEL_ID
-```
 
 This does not log into YouTube or X. It does not read a personalized homepage. Public feeds only.
 

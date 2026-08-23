@@ -1,18 +1,18 @@
-# DeSlop
+# Finite
 
 @AGENTS.md
 
 ## What this is
 
-A finite reading list. Write what you are working toward. Public RSS/Atom comes in. A local scorer keeps only items that can quote a reason. You get a short list. Then it stops.
+A short reading list with a stop condition. The public site is a demo. Clone the repo to run your own.
 
 ## Commands
 
 ```bash
 pnpm install
 pnpm dev       # localhost:8180
-pnpm ingest    # fetch default sources
-pnpm dose      # print today's list
+pnpm ingest
+pnpm dose
 pnpm build
 ```
 
@@ -25,6 +25,8 @@ cp -R public .next/standalone/public
 node /Users/mini-home/Desktop/Monorepo/control-plane/scripts/migrate-pm2-fleet.mjs --apply --only deslop
 ```
 
+PM2 process name remains `deslop` (port 8180). Public hostname is `finite.polyfeeds.dev`.
+
 ## Current state
 
-Public at [github.com/pauljump/deslop](https://github.com/pauljump/deslop). Demo at [deslop.polyfeeds.dev](https://deslop.polyfeeds.dev). Vibecheck guide at `/finite`.
+Public at [github.com/pauljump/finite](https://github.com/pauljump/finite). Demo at [finite.polyfeeds.dev](https://finite.polyfeeds.dev).

@@ -20,11 +20,11 @@ const mono = IBM_Plex_Mono({
 })
 
 export const metadata: Metadata = {
-  title: "DeSlop",
-  description: "A short reading list with a stop condition. Runs on your machine.",
+  title: "Finite",
+  description: "A short reading list with a stop condition. A demo — clone it to run yours.",
   manifest: "/manifest.webmanifest",
   icons: { icon: "/favicon.svg" },
-  appleWebApp: { capable: true, title: "DeSlop", statusBarStyle: "default" },
+  appleWebApp: { capable: true, title: "Finite", statusBarStyle: "default" },
 }
 
 export const viewport: Viewport = {

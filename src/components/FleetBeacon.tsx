@@ -12,7 +12,7 @@ export function FleetBeacon() {
   useEffect(() => {
     if (!pathname) return
     if (typeof window === "undefined") return
-    if (window.location.hostname !== "deslop.polyfeeds.dev") return
+    if (!["finite.polyfeeds.dev", "deslop.polyfeeds.dev"].includes(window.location.hostname)) return
     const w = window as unknown as { __pulse?: boolean }
     const inlineBeatUs = !firedOnce && w.__pulse === true
     firedOnce = true

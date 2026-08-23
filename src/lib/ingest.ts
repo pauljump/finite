@@ -9,7 +9,11 @@ const TTL_MS = 15 * 60 * 1000
 const FETCH_MS = 8000
 
 function dataDir(): string {
-  return process.env.DESLOP_DATA_DIR ?? join(homedir(), ".local/state/deslop")
+  return (
+    process.env.FINITE_DATA_DIR ??
+    process.env.DESLOP_DATA_DIR ??
+    join(homedir(), ".local/state/finite")
+  )
 }
 
 function cachePath(): string {
@@ -43,7 +47,7 @@ async function fetchSource(source: Source): Promise<RawItem[]> {
       signal: ac.signal,
       headers: {
         Accept: "application/atom+xml, application/rss+xml, application/xml, text/xml",
-        "User-Agent": "DeSlop/0.1 (+https://deslop.polyfeeds.dev)",
+        "User-Agent": "Finite/0.1 (+https://finite.polyfeeds.dev)",
       },
     })
     if (!res.ok) return []

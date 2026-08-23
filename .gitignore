@@ -1,6 +1,6 @@
 node_modules/
 .next/
-public/deslop.tgz
+public/*.tgz
 .DS_Store
 *.tsbuildinfo
 .env

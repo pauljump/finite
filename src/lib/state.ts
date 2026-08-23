@@ -1,7 +1,7 @@
 import { DEFAULT_PRESCRIPTION } from "./prescription.ts"
 import type { DayLog, Feedback, Prescription } from "./types.ts"
 
-const PREFIX = "deslop.v2."
+const PREFIX = "finite.v1."
 
 function read<T>(key: string, fallback: T): T {
   if (typeof window === "undefined") return fallback

@@ -22,6 +22,11 @@ import type { DayLog, FeedbackMark, Prescription, RankedItem, RawItem } from "@/
 
 type Screen = "onboard" | "dose" | "done" | "rejects" | "rx"
 
+function hostedDemo(): boolean {
+  if (typeof window === "undefined") return false
+  return window.location.hostname.endsWith("polyfeeds.dev")
+}
+
 function shortGoal(goal: string): string {
   const cut = goal
     .replace(/^i('m| am) (becoming a person who |working on )/i, "")
@@ -38,7 +43,8 @@ function fmtRemain(ms: number): string {
 
 export function App() {
   const [ready, setReady] = useState(false)
-  const [screen, setScreen] = useState<Screen>("onboard")
+  const [screen, setScreen] = useState<Screen>("dose")
+  const [hosted, setHosted] = useState(false)
   const [prescription, setPrescription] = useState<Prescription>(DEFAULT_PRESCRIPTION)
   const [items, setItems] = useState<RawItem[]>([])
   const [ingested, setIngested] = useState(0)
@@ -57,6 +63,8 @@ export function App() {
   })
 
   useEffect(() => {
+    const demo = hostedDemo()
+    setHosted(demo)
     const rx = loadPrescription() ?? DEFAULT_PRESCRIPTION
     const onboarded = hasOnboarded()
     const extra = loadExtraFeeds()
@@ -70,7 +78,7 @@ export function App() {
     })
     setFeedsText(extra.join("\n"))
     setDay(loadDay())
-    setScreen(onboarded ? "dose" : "onboard")
+    setScreen(demo || onboarded ? "dose" : "onboard")
     setReady(true)
     const extraFeeds = extra
     ;(async () => {
@@ -161,11 +169,15 @@ export function App() {
     return (
       <main className="shell">
         <div className="rx-row">
-          <div className="mark">DeSlop</div>
-          <div className="meta">local</div>
+          <div className="mark">Finite</div>
+          <div className="meta">{hosted ? "demo" : "local"}</div>
         </div>
         <h1>A short list. Then it stops.</h1>
-        <p className="lede">Write what you are working toward. Scoring stays on this device.</p>
+        <p className="lede">
+          {hosted
+            ? "A demo of a reading list with a stop condition."
+            : "Write what you are working toward. Scoring stays on this device."}
+        </p>
         <p className="loading">Pulling public feeds…</p>
       </main>
     )
@@ -175,12 +187,14 @@ export function App() {
     return (
       <main className="shell">
         <div className="rx-row">
-          <div className="mark">DeSlop</div>
-          <div className="meta">local</div>
+          <div className="mark">Finite</div>
+          <div className="meta">{hosted ? "demo" : "local"}</div>
         </div>
         <h1>{screen === "onboard" ? "A short list. Then it stops." : "What you're working toward."}</h1>
         <p className="lede">
-          Write the work. Public feeds come in. Only items that can quote a reason survive. Scoring stays on this device.
+          {hosted
+            ? "This hosted copy is a demo. Change the intent if you want to poke at it — nothing is saved as an account. Clone the repo to run your own."
+            : "Write the work. Public feeds come in. Only items that can quote a reason survive. Scoring stays on this device."}
         </p>
         <label htmlFor="becoming">What are you working toward</label>
         <textarea
@@ -243,11 +257,7 @@ export function App() {
             Back
           </button>
         )}
-        <p className="hero-note">
-          <a href="https://vibecheck.polyfeeds.dev/finite" rel="noreferrer">
-            Run this on your machine
-          </a>
-        </p>
+        <DemoNote hosted={hosted} />
       </main>
     )
   }
@@ -256,7 +266,7 @@ export function App() {
     return (
       <main className="shell">
         <div className="rx-row">
-          <div className="mark">DeSlop</div>
+          <div className="mark">Finite</div>
           <div className="nav">
             <button type="button" onClick={() => setScreen(finished ? "done" : "dose")}>
               Close
@@ -284,8 +294,8 @@ export function App() {
     return (
       <main className="shell">
         <div className="rx-row">
-          <div className="mark">DeSlop</div>
-          <div className="meta">local</div>
+          <div className="mark">Finite</div>
+          <div className="meta">{hosted ? "demo" : "local"}</div>
         </div>
         <p className="error">{error}</p>
       </main>
@@ -305,8 +315,8 @@ export function App() {
     return (
       <main className="shell">
         <div className="rx-row">
-          <div className="mark">DeSlop</div>
-          <div className="meta">local</div>
+          <div className="mark">Finite</div>
+          <div className="meta">{hosted ? "demo" : "local"}</div>
         </div>
         <div className="status">
           <h1>That&apos;s the list.</h1>
@@ -323,11 +333,7 @@ export function App() {
             Intent
           </button>
         </div>
-        <p className="hero-note">
-          <a href="https://vibecheck.polyfeeds.dev/finite" rel="noreferrer">
-            Run this on your machine
-          </a>
-        </p>
+        <DemoNote hosted={hosted} />
       </main>
     )
   }
@@ -349,7 +355,7 @@ export function App() {
   return (
     <main className="shell">
       <div className="rx-row">
-        <div className="mark">DeSlop</div>
+        <div className="mark">Finite</div>
         <div className="meta">
           {consumedCount}/{assembled.dose.length} read
         </div>
@@ -391,7 +397,20 @@ export function App() {
           Intent
         </button>
       </div>
+      <DemoNote hosted={hosted} />
     </main>
+  )
+}
+
+function DemoNote({ hosted }: { hosted: boolean }) {
+  return (
+    <p className="hero-note">
+      {hosted ? "This is a demo. " : ""}
+      <a href="https://github.com/pauljump/finite" rel="noreferrer">
+        github.com/pauljump/finite
+      </a>
+      {hosted ? " to run yours." : ""}
+    </p>
   )
 }
 

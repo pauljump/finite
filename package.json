@@ -1,17 +1,16 @@
 {
-  "name": "deslop",
+  "name": "finite",
   "version": "0.1.0",
   "private": false,
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/pauljump/deslop.git"
+    "url": "https://github.com/pauljump/finite.git"
   },
-  "homepage": "https://deslop.polyfeeds.dev",
+  "homepage": "https://finite.polyfeeds.dev",
   "scripts": {
     "dev": "next dev --port 8180",
-    "source-tarball": "rm -f public/deslop.tgz && tar -czf public/deslop.tgz --exclude=node_modules --exclude=.next --exclude=public/deslop.tgz --exclude=.DS_Store README.md LICENSE package.json tsconfig.json next.config.ts next-env.d.ts ARCHITECTURE.md AGENTS.md CLAUDE.md src public",
-    "build": "pnpm source-tarball && next build",
+    "build": "next build",
     "ingest": "node --experimental-strip-types --experimental-default-type=module src/cli.ts ingest",
     "dose": "node --experimental-strip-types --experimental-default-type=module src/cli.ts dose"
   },

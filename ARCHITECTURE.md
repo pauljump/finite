@@ -1,9 +1,9 @@
-# DeSlop — architecture
+# Finite — architecture
 
 A finite reading list. You write what you are working toward. Public RSS/Atom comes in. A small scorer keeps only items that can quote a reason. You get a short list. Then it stops.
 
-Source: `https://github.com/pauljump/deslop`
-Live demo: `https://deslop.polyfeeds.dev`
+Source: `https://github.com/pauljump/finite`
+Live demo: `https://finite.polyfeeds.dev`
 Local setup guide: `https://vibecheck.polyfeeds.dev/finite.txt`
 
 This document is the contract for the MVP. The web app is Phase 1, shipped. Native TestFlight is not.
@@ -45,7 +45,7 @@ X has no public RSS. Honest options: the user pastes an RSSHub / Nitter / third-
 ```
 sources.ts  →  rss.ts parser  →  ingest.ts (parallel fetch, 8s timeout)
                                     ↓
-                         ~/.local/state/deslop/inbox.json
+                         ~/.local/state/finite/inbox.json
                                     ↓
                          GET/POST /api/inbox
                                     ↓
@@ -131,7 +131,7 @@ Do not infer hidden relevance. "Kind of related to building" is a fail.
 
 ### Stack (MVP)
 
-- **Web:** Next.js 15 standalone, React 19, no CSS framework, no component library. Port 8180. PM2 + Cloudflare Tunnel → `deslop.polyfeeds.dev`.
+- **Web:** Next.js 15 standalone, React 19, no CSS framework, no component library. Port 8180. PM2 + Cloudflare Tunnel → `finite.polyfeeds.dev`. The hosted site is a demo, not a multi-user product.
 - **State:** `localStorage` only. Prescription, extra feeds, feedback, today's dose. No account.
 - **iOS today:** PWA (`apple-web-app-capable`, standalone manifest). Add to Home Screen is the TestFlight of a one-day build.
 - **iOS next:** SwiftUI shell, same `/api/inbox`, scoring in Swift (port of `score.ts`). TestFlight after the dose loop is proven on the web.
@@ -161,12 +161,12 @@ The UI is a short list on paper. It should feel finished, not like a nicer Twitt
 Bare-minimum proof in the terminal:
 
 ```bash
-cd deslop
+cd finite
 pnpm ingest     # fetch default sources, print counts
 pnpm dose       # score against the default prescription, print the 7
 ```
 
-Then the web app: prescription → dose of 7 → useful/slop → locked until tomorrow. Ship to `deslop.polyfeeds.dev`.
+Then the web app: intent → list of 7 → keep/drop → locked until tomorrow. The hosted site is a demo.
 
 ### Phase 2 — personal sources
 

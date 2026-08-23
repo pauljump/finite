@@ -2,7 +2,7 @@ import type { Prescription } from "./types.ts"
 
 export const DEFAULT_PRESCRIPTION: Prescription = {
   becoming:
-    "I'm working on shipping useful software. I want first-hand writeups, worked examples, and systems that actually run. Recaps and outrage can wait.",
+    "I'm building software from a Mac Mini. I want first-hand writeups, worked examples, and systems that actually run. Recaps and outrage can wait.",
   goals: [
     "ship useful software, code, and tools; learn from builders, engineers, and practitioners",
     "understand systems, infrastructure, security, incentives, and how the world works",
