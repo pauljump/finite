@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,560&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    background:
+      linear-gradient(180deg, rgba(196, 92, 38, 0.07), transparent 42%),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 31px,
+        rgba(27, 23, 19, 0.045) 32px
+      ),
+      #f3eee4;
+    color: #1b1713;
+  }
+  .card {
+    width: 1200px;
+    height: 630px;
+    padding: 64px 72px 56px;
+    display: flex;
+    flex-direction: column;
+  }
+  .top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+  .mark {
+    font-family: Fraunces, Georgia, serif;
+    font-size: 36px;
+    font-weight: 560;
+    letter-spacing: -0.03em;
+  }
+  .meta {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 18px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: #6e655b;
+  }
+  .mid {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-bottom: 12px;
+  }
+  h1 {
+    font-family: Fraunces, Georgia, serif;
+    font-weight: 500;
+    font-size: 92px;
+    line-height: 0.96;
+    letter-spacing: -0.035em;
+    max-width: 980px;
+  }
+  .rule {
+    width: 56px;
+    height: 3px;
+    background: #c45c26;
+    margin: 28px 0 22px;
+  }
+  .lede {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 20px;
+    letter-spacing: 0.04em;
+    color: #6e655b;
+    max-width: 720px;
+    line-height: 1.45;
+  }
+  .bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .ticks {
+    display: flex;
+    gap: 8px;
+  }
+  .tick {
+    width: 36px;
+    height: 8px;
+    border-radius: 99px;
+    background: #d4cbb8;
+  }
+  .tick.on { background: #c45c26; }
+  .url {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: 18px;
+    letter-spacing: 0.04em;
+    color: #6e655b;
+  }
+</style>
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="top">
+      <div class="mark">Finite</div>
+      <div class="meta">Demo</div>
+    </div>
+    <div class="mid">
+      <h1>A short list.<br>Then it stops.</h1>
+      <div class="rule"></div>
+      <p class="lede">A reading list with a ceiling. Not a feed.</p>
+    </div>
+    <div class="bottom">
+      <div class="ticks" aria-hidden="true">
+        <span class="tick on"></span>
+        <span class="tick on"></span>
+        <span class="tick"></span>
+        <span class="tick"></span>
+        <span class="tick"></span>
+        <span class="tick"></span>
+        <span class="tick"></span>
+      </div>
+      <div class="url">finite.polyfeeds.dev</div>
+    </div>
+  </div>
+</body>
+</html>
