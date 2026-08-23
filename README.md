@@ -8,7 +8,8 @@ You write what you are working toward. Public RSS and YouTube Atom come in. A sm
 
 No account. No API key. Intent stays in the browser.
 
-Demo: https://finite.polyfeeds.dev
+Demo: https://finite.polyfeeds.dev  
+(`deslop.polyfeeds.dev` still resolves here.)
 
 To have an AI set it up on your machine:
 

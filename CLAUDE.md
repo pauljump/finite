@@ -29,4 +29,6 @@ PM2 process name remains `deslop` (port 8180). Public hostname is `finite.polyfe
 
 ## Current state
 
-Public at [github.com/pauljump/finite](https://github.com/pauljump/finite). Demo at [finite.polyfeeds.dev](https://finite.polyfeeds.dev).
+Public at [github.com/pauljump/finite](https://github.com/pauljump/finite). Demo at [finite.polyfeeds.dev](https://finite.polyfeeds.dev) (`deslop.polyfeeds.dev` is an alias). OG share card is `/og.png`. Pulse property is `finite` (legacy hits under `deslop`); beacon is fleet-standard but only fires on the hosted demo, not GitHub clones.
+
+Canonical local root: `/Users/mini-home/projects/finite`.
