@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { assembleDose } from "@/lib/dose"
 import { DEFAULT_PRESCRIPTION, fromForm } from "@/lib/prescription"
 import { scoreItem } from "@/lib/score"
@@ -19,6 +19,13 @@ import {
   todayStamp,
 } from "@/lib/state"
 import type { DayLog, FeedbackMark, Prescription, RankedItem, RawItem } from "@/lib/types"
+import {
+  getModelContext,
+  registerFiniteTools,
+  type FiniteSnapshot,
+  type FiniteToolHandlers,
+  type ReadingPlanInput,
+} from "@/lib/webmcp"
 
 type Screen = "onboard" | "dose" | "done" | "rejects" | "rx"
 
@@ -53,6 +60,8 @@ export function App() {
   const [cursor, setCursor] = useState(0)
   const [holding, setHolding] = useState(false)
   const [remain, setRemain] = useState(msUntilTomorrow())
+  const [agentTools, setAgentTools] = useState<"available" | "unavailable">("unavailable")
+  const toolHandlers = useRef<FiniteToolHandlers | null>(null)
   const [feedsText, setFeedsText] = useState("")
   const [form, setForm] = useState({
     becoming: DEFAULT_PRESCRIPTION.becoming,
@@ -164,6 +173,72 @@ export function App() {
     markOnboarded()
     setScreen("dose")
   }
+
+  function setAgentPlan(input: ReadingPlanInput) {
+    const nextForm = {
+      becoming: input.becoming?.trim() || form.becoming,
+      usefulMeans: input.usefulMeans?.trim() || form.usefulMeans,
+      hardNo: input.hardNo ?? form.hardNo,
+      dailyDose: Math.max(3, Math.min(12, Math.round(input.dailyDose ?? form.dailyDose))),
+      maxMinutes: Math.max(5, Math.min(180, Math.round(input.maxMinutes ?? form.maxMinutes))),
+    }
+    const next = fromForm(nextForm)
+    setForm(nextForm)
+    setPrescription(next)
+    savePrescription(next)
+    markOnboarded()
+    const freshDay = { date: todayStamp(), itemIds: [], consumed: {} }
+    setDay(freshDay)
+    saveDay(freshDay)
+    setCursor(0)
+    setScreen("dose")
+    return { status: "plan_updated", goal: next.becoming, dailyDose: next.dailyDose, maxMinutes: next.maxMinutes }
+  }
+
+  function closeForToday() {
+    const consumed = { ...day.consumed }
+    let skipped = 0
+    for (const item of assembled.dose) {
+      if (consumed[item.id]) continue
+      consumed[item.id] = "skip"
+      addFeedback({ itemId: item.id, mark: "skip", at: new Date().toISOString(), sourceId: item.sourceId })
+      skipped += 1
+    }
+    const next = { ...day, consumed }
+    setDay(next)
+    saveDay(next)
+    setScreen("done")
+    return { status: "closed_for_today", skipped, nextDoseIn: fmtRemain(remain) }
+  }
+
+  const snapshot: FiniteSnapshot = {
+    screen,
+    goal: prescription.becoming,
+    usefulMeans: prescription.usefulMeans,
+    dailyDose: prescription.dailyDose,
+    maxMinutes: prescription.maxMinutes,
+    consumedCount,
+    doseCount: assembled.dose.length,
+    remainingUntilTomorrow: fmtRemain(remain),
+    current,
+    rejected: assembled.rejected,
+  }
+
+  toolHandlers.current = {
+    getSnapshot: () => snapshot,
+    markCurrent: (mark) => {
+      if (!current) return { status: "no_current_item" }
+      commit(current, mark)
+      return { status: "marked", mark, itemId: current.id }
+    },
+    setPlan: setAgentPlan,
+    closeForToday,
+  }
+
+  useEffect(() => {
+    setAgentTools(getModelContext() ? "available" : "unavailable")
+    return registerFiniteTools(() => toolHandlers.current)
+  }, [])
 
   if (!ready) {
     return (
@@ -356,9 +431,7 @@ export function App() {
     <main className="shell">
       <div className="rx-row">
         <div className="mark">Finite</div>
-        <div className="meta">
-          {consumedCount}/{assembled.dose.length} read
-        </div>
+        <div className="meta">{consumedCount}/{assembled.dose.length} read · <AgentStatus status={agentTools} /></div>
       </div>
       <p className="dose-index">
         {n} of {assembled.dose.length} · {current.score.timeCost} min
@@ -418,6 +491,10 @@ function DemoNote({ hosted }: { hosted: boolean }) {
       {hosted ? " to run yours." : ""}
     </p>
   )
+}
+
+function AgentStatus({ status }: { status: "available" | "unavailable" }) {
+  return <span className={`agent-status${status === "available" ? " ready" : ""}`}>{status === "available" ? "agent-ready" : "human mode"}</span>
 }
 
 function HoldToOpen({

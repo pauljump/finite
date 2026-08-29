@@ -60,6 +60,8 @@ a { color: inherit; }
   text-transform: uppercase;
   color: var(--muted);
 }
+.agent-status { color: var(--muted); }
+.agent-status.ready { color: var(--good); }
 
 h1 {
   font-family: var(--display);

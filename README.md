@@ -48,6 +48,21 @@ The scorer is in `src/lib/score.ts`. It is not an LLM.
 
 This does not log into YouTube or X. It does not read a personalized homepage. Public feeds only.
 
+## WebMCP
+
+When opened in a WebMCP-aware browser, Finite exposes the reading loop as browser-native tools:
+
+- `get_reading_state` and `get_current_item` let an agent inspect the current dose and its evidence.
+- `mark_current_item` records a useful, slop, or skip judgment; every judgment consumes the slot.
+- `set_reading_plan` changes the reader's intent and rebuilds the finite dose on-device.
+- `close_for_today` stops the session and records remaining items as skipped until tomorrow.
+- `get_held_back` exposes a small, evidence-backed sample of rejected items.
+
+The page remains fully usable by a person without WebMCP. The tools call the same client-side state
+transitions as the buttons, so the agent's actions stay visible in the human interface and the
+prescription, rankings, feedback, and stop condition remain local to the browser. For local Chrome
+testing, enable `chrome://flags/#enable-webmcp-testing` in a recent Chromium build.
+
 ## License
 
 MIT
