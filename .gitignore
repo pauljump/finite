@@ -6,3 +6,9 @@ public/*.tgz
 .env
 .env.*
 !.env.example
+
+# Generated local files; source and retained evidence remain explicit.
+__pycache__/
+*.pyc
+.next-*/
+.build/
